@@ -1,0 +1,62 @@
+Resource Dump
+- General info
+  - Thibault's PhD Thesis [https://www.thibaultgauthier.fr/]
+    - TacticToe -> HOL4
+- ITPs
+  - Coq
+  - Lean
+  - Isabelle
+  - HOL Light
+  - HOL4
+- Lean threads
+  - Machine Learning [https://leanprover.zulipchat.com/#narrow/stream/219941-Machine-Learning.20for.20Theorem.20Proving]
+  - IMO-grand-challenge [https://leanprover.zulipchat.com/#narrow/stream/208328-IMO-grand-challenge]
+  - AI and theorem proving [https://leanprover.zulipchat.com/#narrow/stream/113488-general/topic/AI.20and.20theorem.20proving]
+  - Declarative Lean [https://leanprover.zulipchat.com/#narrow/stream/113488-general/topic/Declarative.20Lean]
+  - Cellphone Mathematics [https://leanprover.zulipchat.com/#narrow/stream/113488-general/topic/Cell.20Phone.20Mathematics]
+  - AI and TP continued [https://leanprover.zulipchat.com/#narrow/stream/113488-general/topic/AI.20and.20theorem.20proving.20continued]
+  - User: Jason Rute
+- AITP conference [http://aitp-conference.org/]
+- People
+  - Yutaka Nagashima [https://scholar.google.com/citations?hl=ja&user=U2cikqsAAAAJ&view_op=list_works&sortby=pubdate]
+    - PamPer [https://arxiv.org/pdf/2004.10667.pdf]
+- Fact/Premise Selection for Hammers
+    - For Isabelle/HOL
+      - MePo
+      - MaSh 
+      - MeSh [https://link.springer.com/article/10.1007/s10817-016-9362-8#Sec17]
+- Gyms and models for ML in TP
+  - Coq
+    - GamePad [https://arxiv.org/abs/1806.00608]
+    - CompCert [http://compcert.inria.fr/]
+      - ProverBot9001 [https://arxiv.org/pdf/1907.07794.pdf]
+      - SmartCoq [https://easychair.org/publications/preprint/SQCJ]
+    - CoqGym [https://github.com/princeton-vl/CoqGym]
+      - ASTactic [https://github.com/princeton-vl/CoqGym]
+  - HOL4
+    - HOList [https://arxiv.org/abs/1904.03241]
+      - Example [https://github.com/jasonrute/holist-communication-example]
+      - DeepHOL [https://arxiv.org/abs/1904.03241]
+        - Example [https://github.com/aahadley/deepmath-jupyter/blob/master/HOLJup.ipynb]
+    - TacticToe
+  - Isabelle
+    - PamPer (Feature set) [https://arxiv.org/pdf/2004.10667.pdf]
+  - Lean
+    - Some discussion here [https://gist.github.com/jasonrute/00109af2bdc0974d2e8e79faf26ba556]
+- Leaderboard [https://paperswithcode.com/task/automated-theorem-proving]
+- Human Proved theorems (data)
+  - Isabelle
+    - Archive of formal proofs [https://www.isa-afp.org/index.html]
+    - Sledgehammer: judgement day [http://www21.in.tum.de/~boehmes/judgement.html]
+  - Lean
+    - mathlib [https://github.com/leanprover-community/mathlib]
+  - Coq 
+    - CoqGym
+- Declarative ITP
+  - Coq [https://kluedo.ub.uni-kl.de/frontdoor/deliver/index/docId/2100/file/B-065.pdf]
+  - Isar [http://isabelle.in.tum.de/Isar/]
+  - Lean (Some discussion) [https://leanprover.zulipchat.com/#narrow/stream/113488-general/topic/Declarative.20Lean]
+
+
+- Uncategorized:
+  - tensorflow/deepmath [https://github.com/tensorflow/deepmath]
