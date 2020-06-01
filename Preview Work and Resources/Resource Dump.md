@@ -27,6 +27,7 @@ Resource Dump
   - Cellphone Mathematics [https://leanprover.zulipchat.com/#narrow/stream/113488-general/topic/Cell.20Phone.20Mathematics]
   - AI and TP continued [https://leanprover.zulipchat.com/#narrow/stream/113488-general/topic/AI.20and.20theorem.20proving.20continued]
   - Examples of communicating with Lean [https://leanprover.zulipchat.com/#narrow/stream/113488-general/topic/Examples.20of.20communicating.20with.20Lean]
+  - HOList Discussion[https://leanprover.zulipchat.com/#narrow/stream/219941-Machine-Learning.20for.20Theorem.20Proving/topic/HOList]
   - User: Jason Rute
 - Conferences
   - AITP [http://aitp-conference.org/]
