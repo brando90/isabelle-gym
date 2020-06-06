@@ -1,34 +1,58 @@
 # CoqGym Documentation
 
-## Misc.
-### Proofs
-### Goals
+The main functions lies within `eval_env.py` .
 
 
-## ProofEnv (in eval_env.py)
+Data Structures
+=======
+
+S-expression:
+-------
+A string representing a nested list/tree in [this format](https://en.wikipedia.org/wiki/S-expression).
+
+Goal:
+-------
+```json
+{'id': number
+ 'type': string of type of the goal (statement to prove)
+ 'hyposeses': [a list of Premises (the local context)]
+}
+```
+Premise:
+-------
+```json
+{'idents':[list of identifiers of the premises]
+ 'term':[list of Coq terms]
+ 'type': the type of the premise (statement of the premise)
+ 'sexp': Hash of the s-expression
+}
+```
+
+Environment API
+===
+ProofEnv (in `eval_env.py`)
+---
 The interactive environment for proving one theorem.
-#### \_\_init__
-Start an environment with "proof" to prove.
+##### 1. \_\_init__
+Start an environment with "goal" to prove.
 Argument list:
-- proof 
+- proof -- the goal
 - serapi -- API for interacting with Coq
 - max_num_tactcs 
 - timeout
-#### init
+##### 2. init
 Return the initial goals and global environment of the theorem.
-#### step 
-perform a single interaction
-the agent provides a command and get feedback from Coq
-valid commands include:
-    tactics
-    Admitted - to give up the proof
-    Undo - to backtrack one step
-    other valid Coq commands
+##### 3. step 
+Perform a single interaction with Coq.
 
-Argument list:
+Argument:
 - command
-
-Returns:
+  * tactics
+  * Admitted - to give up the proof
+  * Undo - to backtrack one step
+  * other valid Coq commands
+  
+Returns: 
 A dictionary contains the feedback. The "result" key: 
   - ALREADY_SUCCEEDED
   - ALREADY_FAILED
@@ -41,12 +65,13 @@ A dictionary contains the feedback. The "result" key:
   - ERROR
     - "error" : (shelved_goals, given_up_goals) # if there are shelved or given up goals
   - PROVING 
-    - fg_goals
-    - bg_goals
-    - shelved_goals
-    - given_up_goals
+    - fg_goals : foreground goals,
+    - bg_goals : background goals,
+    - shelved_goals : shelved goals (by tactic shelve),
+    - given_up_goals : Admitted goals.
 
-## FileEnv (in eval_env.py)
+FileEnv (in `eval_env.py`)
+---
 A generator of the theorems in a Coq file
 The agent should iterate through this environment and interact with each theorem sequentially
 
@@ -59,7 +84,7 @@ with FileEnv(file_name, max_num_tactics, timeout) as file_env:
             proof_env.step('Admitted.')
 ```
 
-#### \_\_init__
+##### 1. \_\_init__
 Argument list:
 - filename -- json file in CoqGym
 - max_num_tactcs -- max number of interactions per theorem
@@ -67,11 +92,11 @@ Argument list:
 - with_hammer
 - hammer_timeout
 
-#### initialize_serapi
+##### 2. initialize_serapi
 Initialize the SerAPI used for interactive proving.
 Will tell the API to choose the hammer to use here.
 
-#### \_\_iter__, \_\_next__
+##### 3. \_\_iter__, \_\_next__
 Python iterator. Iterates through the CoqGym json document
 Refreshes SerAPI every 30 uses or when it is dead.
 
@@ -82,5 +107,7 @@ Returns:
  - A ProofEnv for the next proof.
 
 
+Implementation Note
+===
 
-
+[SerAPI](https://github.com/ejgallego/coq-serapi) is used to communicate with Coq. CoqGym uses `seraapi.py` to communicate with SerAPI.
