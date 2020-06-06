@@ -92,11 +92,8 @@ Argument list:
 - with_hammer
 - hammer_timeout
 
-##### 2. initialize_serapi
-Initialize the SerAPI used for interactive proving.
-Will tell the API to choose the hammer to use here.
 
-##### 3. \_\_iter__, \_\_next__
+##### 2. \_\_iter__, \_\_next__
 Python iterator. Iterates through the CoqGym json document
 Refreshes SerAPI every 30 uses or when it is dead.
 
@@ -110,4 +107,6 @@ Returns:
 Implementation Note
 ===
 
-[SerAPI](https://github.com/ejgallego/coq-serapi) is used to communicate with Coq. CoqGym uses `seraapi.py` to communicate with SerAPI.
+[SerAPI](https://github.com/ejgallego/coq-serapi) is used to communicate with Coq. CoqGym uses `seraapi.py` to communicate with SerAPI. The SerAPI instance is refreshed every 30 theorems.
+
+Unlike [HOList](https://sites.google.com/view/holist/home), CoqGym backtracks using command "Undo" which makes the API similar to the [OpenAI/Gym](https://gym.openai.com/) environment. 
