@@ -30,10 +30,11 @@ class IsabelleClient:
         self.process.run(input=subprocess.PIPE, async_=True)
 
     def close(self): 
-        #TODO: find a way to stop the client
+        # TODO: find a way to stop the client
         pass
     # returns result.
     def send(self, message):
+        # TODO: Does not run properly now. Need to make it async.
         self.process.stdin.write(message)
         self.process.stdin.flush()
         return self.process.stdout.read(), self.process.stderr.read()
@@ -42,5 +43,11 @@ class IsabelleSession:
     def __init__(self, timeout, debug):
         self.debug = debug
         self.timeout = timeout
+
+if __name__ == "__main__":
+    test_server = IsablleServer(1000)
+    test_client = test_server.create_client()
+    print(test_client.send(b"echo 42"))
+    test_server.close()
 
 # reference : CoqGym/serapi.py
