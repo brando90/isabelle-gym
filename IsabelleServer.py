@@ -11,6 +11,9 @@ class IsablleServer:
         # TODO: remember clients so that they get closed when server is closed.
         try:
             self.process = sarge.run('isabelle server -n ' + SERVER_NAME, async_=True, stdout=Capture(buffer_size=1),stderr=Capture(buffer_size=1))
+            out = self.process.stdout.expect(r'server .+ \(password .+\)\n')
+            if debug:
+                print(out, self.process.stderr.read())
         except FileNotFoundError: 
             print('Please make sure the "isabelle" program is in the PATH.')
             raise
@@ -28,6 +31,12 @@ class IsabelleClient:
         self.timeout = timeout
         self.process = sarge.Command('isabelle client -n ' + SERVER_NAME, stdout=Capture(buffer_size=1),stderr=Capture(buffer_size=1))
         self.process.run(input=subprocess.PIPE, async_=True)
+        outs = self.process.stdout.expect(r"OK (.+)\n")
+        errs = self.process.stderr.read()
+        if outs:
+            return outs[0]
+        else:
+            return self.process.stderr.read()
 
     def close(self): 
         # TODO: find a way to stop the client
@@ -37,7 +46,11 @@ class IsabelleClient:
         # TODO: Does not run properly now. Need to make it async.
         self.process.stdin.write(message)
         self.process.stdin.flush()
-        return self.process.stdout.read(), self.process.stderr.read()
+        outs = self.process.stdout.expect(r"OK (.+)\n")
+        if outs:
+            return outs[0]
+        else:
+            return self.process.stderr.read()
 
 class IsabelleSession:
     def __init__(self, timeout, debug):
@@ -45,9 +58,10 @@ class IsabelleSession:
         self.timeout = timeout
 
 if __name__ == "__main__":
-    test_server = IsablleServer(1000)
+    test_server = IsablleServer(1000,debug=True)
     test_client = test_server.create_client()
-    print(test_client.send(b"echo 42"))
+
+    print(test_client.send(b"echo 42\n"))
     test_server.close()
 
 # reference : CoqGym/serapi.py
