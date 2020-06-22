@@ -32,7 +32,7 @@ class IsabelleClient:
         self.process = sarge.Command('isabelle client -n ' + SERVER_NAME, stdout=Capture(buffer_size=1),stderr=Capture(buffer_size=1))
         self.process.run(input=subprocess.PIPE, async_=True)
         outs = self.process.stdout.expect(r"OK (.+)\n")
-        errs = self.process.stderr.read()
+        # outs is a re.Match object
         if outs:
             return outs[0]
         else:
@@ -43,10 +43,10 @@ class IsabelleClient:
         pass
     # returns result.
     def send(self, message):
-        # TODO: Does not run properly now. Need to make it async.
         self.process.stdin.write(message)
         self.process.stdin.flush()
         outs = self.process.stdout.expect(r"OK (.+)\n")
+        # outs is an re.Match object
         if outs:
             return outs[0]
         else:
