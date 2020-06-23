@@ -1,0 +1,57 @@
+theory basics_isar
+imports Main
+begin
+
+lemma duper_simple0: "A\<longrightarrow>A"
+  apply (rule impI)
+  apply assumption
+  done
+
+lemma duper_simple1: "A\<longrightarrow>A"
+proof (rule impI)
+  show "A\<Longrightarrow>A" by assumption
+qed
+
+lemma very_simple0: "A \<longrightarrow> A \<or> B"
+  apply (rule impI) (* A \<Longrightarrow> A \<or> B *)
+  thm disjI1 (* ?P \<Longrightarrow> ?P \<or> ?Q *)
+  apply (rule disjI1) (* A \<Longrightarrow> A *)
+  by assumption
+
+lemma very_simple2: "A \<longrightarrow> A \<or> B"
+proof (rule impI) (* goal: A\<Longrightarrow>A\<or>B *)
+  assume A
+  then show "A \<or> B"
+    by (rule disjI1)
+qed
+
+(* A \<Rightarrow>(B \<Rightarrow> (A \<and> B)) *)
+(* (A \<Rightarrow> B) \<Rightarrow> ((B \<Rightarrow> C) \<Rightarrow> (A \<Rightarrow> C)) *)
+
+(* 
+Modus Ponens
+A \<Rightarrow> B A
+======== MP
+B
+A \<Rightarrow> B A B
+Imp E
+B
+Left Conjunct
+A \<and> B
+==== AndL
+A
+A \<and> B A
+AndL E
+A
+Right Conjunct
+A \<and> B
+==== AndR
+B
+A \<and> B B
+AndR E
+B
+*)
+
+(* (A \<and> B) \<Rightarrow> (A \<or> B) *)
+
+end

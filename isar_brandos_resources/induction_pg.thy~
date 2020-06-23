@@ -1,0 +1,168 @@
+theory induction_pg
+  imports Main
+begin
+
+thm nat.induct (* \<lbrakk>?P 0; \<And>nat. ?P nat \<Longrightarrow> ?P (Suc nat)\<rbrakk> \<Longrightarrow> ?P ?nat *)
+print_theorems
+
+lemma
+  fixes n::nat
+  shows "n + 0 = n" (is "?P n")
+proof (induction n)
+  show "?P 0" by simp
+  fix n
+  assume "?P n"
+  show "?P(Suc n)" by simp
+qed
+
+lemma
+  fixes n::nat
+  shows "n + 0 = n" (is "?P n")
+proof (induction n)
+case 0
+  then show ?case by simp
+next
+  case (Suc n)
+  then show ?case by simp
+qed
+
+datatype 'a tau =
+C0 |
+C1 "'a tau" |
+C2 "'a tau" "'a tau" |
+C3 "'a tau" nat
+print_theorems
+
+(*
+\<lbrakk>?P C0; 
+\<And>x. ?P x \<Longrightarrow> ?P (C1 x); 
+\<And>x1 x2a. \<lbrakk>?P x1; ?P x2a\<rbrakk> \<Longrightarrow> ?P (C2 x1 x2a); 
+\<And>x1 x2a. ?P x1 \<Longrightarrow> ?P (C3 x1 x2a)\<rbrakk> 
+\<Longrightarrow> ?P ?tau
+*)
+thm tau.induct
+
+inductive i :: "'a \<Rightarrow> bool" where
+rule_i0: "i x" |
+rule_i1: "i x \<Longrightarrow> i x" |
+rule_i2: "i x \<Longrightarrow> i y" |
+rule_i3: "Q x \<Longrightarrow> i x" 
+(* rule_i4: "Q 0 \<Longrightarrow> i y" *)
+
+thm i.induct
+
+fun evn :: "nat \<Rightarrow> bool" where 
+"evn 0 = True" |
+"evn (Suc 0) = False" |
+"evn (Suc(Suc n)) = evn n"
+
+inductive ev :: "nat \<Rightarrow> bool" where 
+ev0: "ev 0" |
+evSS: "ev n \<Longrightarrow> ev(Suc(Suc n))"
+thm ev.induct (* \<lbrakk>ev ?x; ?P 0; \<And>n. \<lbrakk>ev n; ?P n\<rbrakk> \<Longrightarrow> ?P (Suc (Suc n))\<rbrakk> \<Longrightarrow> ?P ?x *)
+
+lemma
+  shows "ev n \<Longrightarrow> evn n" (* (is "?I x \<Longrightarrow> ?P x") *)
+proof (induction rule: ev.induct)
+  show "evn 0" by simp
+next
+  fix n
+  assume evSS_assump: "ev n"
+  assume IH: "evn n"
+  from evSS_assump IH show "evn (Suc(Suc(n)))" by simp
+qed
+
+lemma
+  shows "ev n \<Longrightarrow> evn n" (* (is "?I x \<Longrightarrow> ?P x") *)
+proof (induction rule: ev.induct)
+  case ev0
+  then show ?case by simp
+next
+  case (evSS n')
+  thm evSS.IH
+  thm evSS.hyps
+  thm evSS.prems
+  then show ?case by simp
+qed
+
+(* 5.4.4 Assumption naming *)
+
+lemma
+  shows "ev n \<Longrightarrow> evn n" (* (is "?I x \<Longrightarrow> ?P x") *)
+proof (induction rule: ev.induct)
+  case ev0
+  then show ?case by simp
+next
+  case (evSS n')
+  thm evSS.IH
+  thm evSS.hyps
+  thm evSS.prems
+  then show ?case by simp
+qed
+
+lemma
+  shows "ev n \<Longrightarrow> evn n" (* (is "?I x \<Longrightarrow> ?P x") *)
+proof (induction rule: ev.induct)
+  show "evn 0" by simp
+next
+  fix n'
+  assume rule_asmp: "ev n'"
+  assume IH: "evn n'"
+  from rule_asmp IH show "evn (Suc (Suc n'))" by simp
+qed
+
+
+lemma
+  shows "ev n \<Longrightarrow> ev (n - 2)"
+proof (induction rule: ev.induct)
+  show "ev (0 - 2)" by (simp add: ev.ev0)
+next
+  fix n'
+  assume rule_assum: "ev n'"
+  assume IH: "ev (n' - 2)"
+  from rule_assum IH show "ev (Suc (Suc n') - 2)" by (simp add: ev.evSS)
+qed
+
+lemma
+  shows "ev n \<Longrightarrow> ev (n - 2)"
+proof (induction rule: ev.induct)
+  case ev0
+  show ?case by (simp add: ev.ev0)
+next
+  case (evSS n')
+  then show ?case by (simp add: ev.evSS)
+qed
+
+lemma
+  shows "ev n \<Longrightarrow> ev (n - 2)"
+proof (induction rule: ev.induct)
+  case ev0
+  then show ?case by (simp add: ev.ev0)
+next
+  case (evSS n')
+  then show ?case by (simp add: ev.evSS)
+qed
+
+lemma
+  shows "ev n \<Longrightarrow> ev (n - 2)"
+proof (induction n rule: ev.induct)
+  case ev0
+  then show ?case by (simp add: ev.ev0)
+next
+  case (evSS n')
+  then show ?case by (simp add: ev.evSS)
+qed
+
+lemma
+  shows "ev n \<Longrightarrow> evn n"
+proof (induction n rule: ev.induct)
+  show "evn 0" by simp
+next
+  fix n'
+  assume rule_asmp: "ev n'"
+  assume IH: "evn n'"
+  from rule_asmp IH show "evn (Suc (Suc n'))" by simp
+qed
+
+
+end

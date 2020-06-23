@@ -1,0 +1,12 @@
+theory proof_transition
+imports Main
+begin
+
+lemma duper_simple1: "A\<longrightarrow>A"
+proof (rule impI)
+(* goal (1 subgoal):
+ 1. A \<Longrightarrow> A *)
+  show "A\<Longrightarrow>A" by assumption
+qed
+
+end

@@ -1,0 +1,55 @@
+theory isar_by_example_5p1
+imports Main
+begin
+
+(* 
+http://www21.in.tum.de/~ballarin/belgrade08-tut/session03/session03.pdf
+blast = tableaux prover (good for predicate)
+metis = resolution prover for FOL with equality
+clarify = applies all safe rules that do not split goal
+safe = apply all safe rules
+
+TODO: resolution prover, tableaux prover, safe rules.
+*)
+
+(* 
+lemma example_apply_script: "\<not> surj(f :: 'a \<Rightarrow> 'a set)"
+  apply (rule notI)
+  apply (simp add: surj_def)
+  apply auto
+*)
+
+thm notI (* (?P \<Longrightarrow> False) \<Longrightarrow> \<not> ?P *)
+thm surj_def (* surj ?f = (\<forall>y. \<exists>x. y = ?f x) *)
+
+lemma "\<not> surj(f :: 'a \<Rightarrow> 'a set)"
+proof (rule notI)
+assume 0: "surj f"
+  from 0 have 1: "\<forall> A. \<exists> a. A = f a" by (simp add: surj_def )
+  from 1 have 2: "\<exists> a. {x . x \<notin> f x } = f a" by metis
+  from 2 show "False" by blast
+qed
+
+lemma "\<not> surj(f :: 'a \<Rightarrow> 'a set)"
+proof safe
+  assume "surj f"
+  thm this
+  from this have "\<exists>a. {x. x \<notin> f x} = f a" by (simp add: surj_def)
+  thm this
+  from this show "False" by blast
+qed
+
+lemma "\<not> surj(f :: 'a \<Rightarrow> 'a set)"
+proof (rule notI)
+  assume "surj f"  (* surj ?f = (\<forall>y. \<exists>x. y = ?f x) *)
+(* if it's surjective then some a must map to the Diagonal set via f *)
+  (* hence "\<exists>a. f a = {x. x \<notin> f x} " by (simp add: surj_def) *)
+ (*above failed cuz unification failed, RHS is a set but surj is stated with RHS as f x, LHS set*)
+  hence "\<exists>a. {x. x \<notin> f x} = f a" by (simp add: surj_def)
+(* this is a contradiction cuz by def of D then a \<notin> f a but then that means its in D and a \<in> f a since f a = D
+  so by law of excluded middle then a must be in a if the first is a contradiction but running the argument backwards get a contradiction
+ i.e. if a \<in> f a then a is in D so it satisfies the property of elements of D namely a \<notin> f a contradiction *)
+  thus "False" by metis
+qed
+
+end
