@@ -31,10 +31,10 @@ class IsabelleClient:
         self.timeout = timeout
         self.process = sarge.Command('isabelle client -n ' + SERVER_NAME, stdout=Capture(buffer_size=1),stderr=Capture(buffer_size=1))
         self.process.run(input=subprocess.PIPE, async_=True)
-        outs = self.process.stdout.expect(r"OK (.+)\n")
+        outs = self.process.stdout.expect(r"(OK|ERROR) (.+)\n")
         # outs is a re.Match object
         if outs:
-            return outs[0]
+            return outs[0]=="OK", outs[1]
         else:
             return self.process.stderr.read()
 
@@ -45,10 +45,10 @@ class IsabelleClient:
     def send(self, message):
         self.process.stdin.write(message)
         self.process.stdin.flush()
-        outs = self.process.stdout.expect(r"OK (.+)\n")
+        outs = self.process.stdout.expect(r"(OK|ERROR) (.+)\n")
         # outs is an re.Match object
         if outs:
-            return outs[0]
+            return outs[0]=="OK", outs[1]
         else:
             return self.process.stderr.read()
 
