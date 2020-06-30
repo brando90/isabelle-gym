@@ -1,11 +1,38 @@
 class Gym:
     def __init__():
         # Somehow initialize it
-    def 
-class Document:
-    environment # List of definitions and theorems in the environment
-    def_lem # List of definitions and lemmas in the document.
 
+# use json-RPC to communicate with isabelle server
+class IsabelleCommuniation():
+    def update_document(self, document):
+        # magically update document and get feedback
+    def update_caret(self, document,pos):
+        # magically update caret and get proofstate
+
+class FileEditor():
+    working_file = None # the file the document is managing.
+    def addline(self, pos, text):
+        self.add(pos, text+"\n")
+    def add(pos, text):
+        # magically add something to the file at position
+    def delete(pos1, pos2):
+        # magically delete something from the file at position
+
+class Document:
+    theorems = [] # list of theorems
+    theorem_dict = {} # maps theorems to position in the document.
+    thy_file = None # FileEditor of the document
+
+    def addline_and_proofstate(line):
+        thy_file.addline(pos,line)
+        return update_document()
+
+    def get_proofstate(theorem):
+        return update_caret(theorem_dict[theorem])
+
+    def add_theorem(theorem):
+        lines += theorem.lines() # something like that.
+        return update_document
 
 
 class IsabelleDocument:
@@ -52,5 +79,5 @@ class Goal:
     # apply the tactic to the goal
     def apply(self, tactic): 
         return self.lemma.apply(tactic)
-    
-    
+
+
