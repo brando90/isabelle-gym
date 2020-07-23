@@ -39,12 +39,12 @@ fun to_sexpr (t: term) =
 
 fun to_sexpr_untyped (t: term) = 
   case t of
-     f $ x => "(apply " ^ to_sexpr_untyped f ^ " " ^ to_sexpr_untyped x ^ ")"
-   | Const (n, _) => "(const " ^ n ^  ")"
-   | Free (n, _) => "(free " ^ n ^ ")"
-   | Var (n, _) => "(var " ^  @{make_string} n ^ ")"
-   | Bound n => "(bound " ^ @{make_string} n ^ ")"
-   | Abs (n, _, e) => "(bound " ^ n ^ " " ^ to_sexpr_untyped e ^   ")"
+     f $ x => "" ^ to_sexpr_untyped f ^ " (" ^ to_sexpr_untyped x ^ ")"
+   | Const (n, _) => "" ^ n ^  ""
+   | Free (n, _) => "" ^ n ^ ""
+   | Var (n, _) => "(" ^  @{make_string} n ^ ")"
+   | Bound n => "(" ^ @{make_string} n ^ ")"
+   | Abs (n, _, e) => "(" ^ n ^ " " ^ to_sexpr_untyped e ^   ")"
 
 \<close>
 
@@ -83,13 +83,13 @@ lemma problem1: "(A \<and> B) \<longrightarrow> (B \<and> A)"
    apply (erule conjE)
    apply assumption
   apply (erule conjE)
+  print_state
+  ML_val "@{Isar.goal}"
+  ML_val "List.map to_sexpr_untyped (Thm.prems_of (#goal @{Isar.goal}))"
   apply assumption
 done
 
 lemma problem2: "(A \<or> B) \<longrightarrow> (B \<or> A)"
-  print_state("latex")
-  ML_val "@{Isar.goal}"
-  ML_val "List.map to_sexpr_untyped (Thm.prems_of (#goal @{Isar.goal}))"
   apply (rule impI)
   apply (rule disjE)
     apply assumption
