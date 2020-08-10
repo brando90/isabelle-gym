@@ -1,5 +1,5 @@
 theory mp1
-imports Main
+imports Main sexpression_print
 begin
 
 (*
@@ -10,43 +10,6 @@ For the proofs, you may only use "assumption", and the following rules
 with rule, erule, rule_tac or erule_tac.  You may also use lemmas that
 you have proved so long as they meet the same restriction.
 *)
-
-ML \<open>
-fun print_sep sep xs = 
-  case xs of
-    [] => ""
-  | [x] => x
-  | x::ys => x ^ sep ^ print_sep sep ys
-
-fun sort_to_sexpr (s: sort) = 
-  print_sep " " s
-
-fun typ_to_sexpr (t: typ) = 
-  case t of
-     Type (n, []) => "(type " ^ n ^ ")"
-   | Type (n, ts) => "(type " ^ n ^ " " ^ print_sep " " (map typ_to_sexpr ts) ^ ")"
-   | TFree (n, s) => "(tfree " ^ n ^ " " ^ sort_to_sexpr s ^ ")"
-   | TVar  (n, s) => "(tfree " ^ @{make_string} n ^ " " ^ sort_to_sexpr s ^ ")"
-
-fun to_sexpr (t: term) = 
-  case t of
-     f $ x => "(apply " ^ to_sexpr f ^ " " ^ to_sexpr x ^ ")"
-   | Const (n, t) => "(const " ^ n ^ " " ^ typ_to_sexpr t  ^ ")"
-   | Free (n, t) => "(free " ^ n ^ " " ^ typ_to_sexpr t  ^ ")"
-   | Var (n, t) => "(var " ^  @{make_string} n ^ " " ^ typ_to_sexpr t  ^ ")"
-   | Bound n => "(bound " ^ @{make_string} n ^ ")"
-   | Abs (n, t, e) => "(bound " ^ n ^ " " ^ typ_to_sexpr t ^ " " ^ to_sexpr e ^   ")"
-
-fun to_sexpr_untyped (t: term) = 
-  case t of
-     f $ x => "" ^ to_sexpr_untyped f ^ " (" ^ to_sexpr_untyped x ^ ")"
-   | Const (n, _) => "" ^ n ^  ""
-   | Free (n, _) => "" ^ n ^ ""
-   | Var (n, _) => "(" ^  @{make_string} n ^ ")"
-   | Bound n => "(" ^ @{make_string} n ^ ")"
-   | Abs (n, _, e) => "(" ^ n ^ " " ^ to_sexpr_untyped e ^   ")"
-
-\<close>
 
 thm notI
 thm notE
