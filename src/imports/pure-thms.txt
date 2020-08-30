@@ -1,0 +1,3 @@
+https://www.cl.cam.ac.uk/research/hvg/Isabelle/dist/library/Pure/Pure/Pure.html
+https://www.cl.cam.ac.uk/research/hvg/Isabelle/dist/library/Pure/Pure/Sessions.html
+https://www.cl.cam.ac.uk/research/hvg/Isabelle/dist/library/Pure/Pure/ML_Bootstrap.html

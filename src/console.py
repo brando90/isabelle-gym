@@ -68,3 +68,7 @@ class IsabelleConsole:
                 is_reading_goal = True
         return goals
     
+
+    # Query isar ast of the given isar command.
+    def get_isar_ast(self, line):
+        return line # for now. TODO: Actually query the ast.
