@@ -1,4 +1,5 @@
 from lark import Lark
+import lark
 
 grammar = """
 start: term
@@ -23,6 +24,16 @@ MYSTR: LETTER (LETTER | "." | "_" | DIGIT)*
 %ignore " "
 """
 parser = Lark(grammar)
-tree = parser.parse("(apply (const HOL.Trueprop) (apply (apply (const HOL.implies) (apply (apply (const HOL.conj) (free A)) (free B))) (apply (apply (const HOL.conj) (free B)) (free A))))")
+tree1 = parser.parse("(apply (const HOL.Trueprop) (apply (apply (const HOL.implies) (apply (apply (const HOL.conj) (free A)) (free B))) (apply (apply (const HOL.conj) (free B)) (free A))))")
 print(parser.parse("(apply (const HOL.Trueprop) (apply (apply (const HOL.implies) (apply (apply (const HOL.conj) (free A)) (free B))) (apply (apply (const HOL.conj) (free B)) (free A))))"))
-print(tree.pretty())
+print(tree1.pretty())
+
+class IncreaseAllNumbers(lark.Transformer):
+    def _call_userfunc(self, tree, children):
+        #print(tree.data)
+        return
+
+    def _call_userfunc_token(self, c):
+        print(c)
+
+IncreaseAllNumbers(visit_tokens=True).transform(tree1)
