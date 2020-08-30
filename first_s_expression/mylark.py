@@ -30,7 +30,8 @@ print(tree1.pretty())
 
 class IncreaseAllNumbers(lark.Transformer):
     def _call_userfunc(self, tree, children):
-        #print(tree.data)
+        # TODO I will need to do something to get the type of variables 
+        # because the variables' types are not attached yet
         return
 
     def _call_userfunc_token(self, c):
