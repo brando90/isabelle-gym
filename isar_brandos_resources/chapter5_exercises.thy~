@@ -431,4 +431,11 @@ that x is not in the first half of the list ?ys 4) we concliude the proof.
 (note ys\<equiv>?ys, zs\<equiv>?zs) 
 *)
 
+(* Substitute for Ex 5.7 *)
+
+(*
+lemma
+  shows "x \<in> \<real> \<and> x*x =2"
+*)
+
 end

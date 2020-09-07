@@ -17,6 +17,20 @@ proof (rule impI)
   qed
 qed
 
+(*
+lemma problem1_attempt6: 
+  shows"(A \<and> B) \<longrightarrow> (B \<and> A)"
+proof (rule impI)
+  assume "A \<and> B"
+  show "B \<and> A" using `A \<and> B` 
+  proof -
+    apply (rule conjE)
+    assume B and A
+    show "B \<and> A" using `B` `A` by (rule conjI)
+  qed
+qed
+*)
+
 (* lemma problem2: "(A \<or> B) \<longrightarrow> (B \<or> A)" *)
 
 thm disjE (* \<lbrakk>?P \<or> ?Q; ?P \<Longrightarrow> ?R; ?Q \<Longrightarrow> ?R\<rbrakk> \<Longrightarrow> ?R *)
