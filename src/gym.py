@@ -9,15 +9,19 @@ class Gym:
         self.console = IsabelleConsole()   # console
         self.document = Document(filename = 'thy')    # .thy proof document
         self.goals = []
+        self.sexps = []
 
         # add default theory _ and import Main statements
         self.add_line('theory ' + self.document.prefix + self.document.filename)
-        self.add_line('imports Main')
+        self.add_line('imports Main sexpression_print')
         self.add_line('begin')
     
     # simply add a new line to .thy document
     def add_line(self, line): 
         self.document.add_line(line)
+
+    def add_lines(self, lines):
+        self.document.add_lines(lines)
 
     # get all lines in .thy document
     def get_lines(self): 
@@ -35,12 +39,15 @@ class Gym:
     # compile the current .thy document as is through console, option to print raw output or goals
     def process_document(self, print_console = False, print_goals = False):
         self.add_line("print_state") 
-        self.add_line("done") 
+        self.add_line("ML_val \"List.map to_sexpr_untyped (Thm.prems_of (#goal @{Isar.goal}))\"")
+        self.add_line("sorry") 
         self.add_line("end") 
 
         self.console.use_thy(self.document.get_name())
         self.goals = self.console.goals
+        self.sexps = self.console.sexps
 
+        self.document.remove_last_line()
         self.document.remove_last_line()
         self.document.remove_last_line()
         self.document.remove_last_line()

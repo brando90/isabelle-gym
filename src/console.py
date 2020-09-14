@@ -12,9 +12,10 @@ class IsabelleConsole:
         self.debug = debug
         self.lines = []
         self.goals = []
+        self.sexps = []
 
         try:
-            self.process = Command('isabelle console', stdout=Capture(buffer_size=1), stderr=Capture(buffer_size=1))
+            self.process = Command('isabelle console -o quick_and_dirty', stdout=Capture(buffer_size=1), stderr=Capture(buffer_size=1))
             self.process.run(input = PIPE, async_=True)
             out = self.process.stdout.expect("Poly/ML> ", timeout = 10)
             if out:
@@ -30,15 +31,21 @@ class IsabelleConsole:
         self.process.stdin.write(str.encode(message) + b'\n')
         self.process.stdin.flush()
 
-    def read(self, update_goals = False):
+    def read(self, update_goals = True, update_sexps = True):
         self.lines.clear()
         s = self.process.stdout.readline().decode('utf-8')
-        while s and s != "Poly/ML> ":
-            self.lines.append(s.strip())
+        while s != "Poly/ML> ":
+            if s:
+                if s == "val it = (): unit":
+                    break
+                self.lines.append(s.strip())
             s = self.process.stdout.readline().decode('utf-8')
         
         if update_goals:
             self.goals = self.extract_goals(self.lines)
+        
+        if update_sexps:
+            self.sexps = self.extract_sexps(self.lines)
 
     def close(self):
         self.process.kill()
@@ -68,6 +75,24 @@ class IsabelleConsole:
                 is_reading_goal = True
         return goals
     
+    def extract_sexps(self, console_output):
+        sexps = []
+        sexps_str = ""
+        reading_sexps = False
+
+        for each in self.lines:
+            if each and reading_sexps:
+                if each != 'string list':
+                    sexps_str += each
+                else:
+                    reading_sexps = False
+                    break
+            if each == 'val it =':
+                reading_sexps = True
+    
+        sexps = eval(sexps_str[:-1])
+        return sexps
+
 
     # Query isar ast of the given isar command.
     def get_isar_ast(self, line):
