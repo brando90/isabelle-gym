@@ -1,5 +1,12 @@
 # isabelle-gym
 
+## TODO
+
+The main help we need is finding a collaborator to help us create a data set for Isabelle. See issue:
+
+https://github.com/brando90/isabelle-gym/issues/30
+
+for details.
 
 ## Opening Isabelle Console
 
@@ -32,7 +39,7 @@ Esentially, you want to be able to call `isabelle console` (or `isabelle` whatev
 
 If you find our code useful consider citing us:
 ```
-@software{isagym,
+@software{isagym2021,
     author={Jize Jiang, Qikai Yang, Alan Andrade, Du Ma, Brando Miranda},
     title={isabelle-gym},
     url={https://github.com/brando90/isabelle-gym},
