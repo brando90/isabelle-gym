@@ -27,3 +27,15 @@ For now, please add the isabelle binary to your paths, by:
 - there are many options, chose the method you prefer: https://stackoverflow.com/questions/37676849/where-is-path-variable-set-in-ubuntu
 
 Esentially, you want to be able to call `isabelle console` (or `isabelle` whatever) in your terminal under any directory. 
+
+## Citation
+
+If you find our code useful consider citing us:
+```
+@software{isagym,
+    author={Brando Miranda},
+    title={isabelle-gym},
+    url={https://github.com/brando90/isabelle-gym},
+    year={2021}
+}
+```
