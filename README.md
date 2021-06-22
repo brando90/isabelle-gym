@@ -33,7 +33,7 @@ Esentially, you want to be able to call `isabelle console` (or `isabelle` whatev
 If you find our code useful consider citing us:
 ```
 @software{isagym,
-    author={Brando Miranda},
+    author={Jize Jiang, Qikai Yang, Alan Andrade, Du Ma, Brando Miranda},
     title={isabelle-gym},
     url={https://github.com/brando90/isabelle-gym},
     year={2021}
