@@ -1,4 +1,4 @@
-# isabelle-gym
+# Isabelle-Gym: a Reinforcement learning Environment and data set for Machine Learning for Theorem Proving
 
 ## TODO
 
