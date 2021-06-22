@@ -35,6 +35,11 @@ For now, please add the isabelle binary to your paths, by:
 
 Esentially, you want to be able to call `isabelle console` (or `isabelle` whatever) in your terminal under any directory. 
 
+## Discussion and question
+
+Consider opening a discussion post before an issue if your post is more of a question or discussion about new features: https://github.com/brando90/isabelle-gym/discussions
+
+
 ## Citation
 
 If you find our code useful consider citing us:
